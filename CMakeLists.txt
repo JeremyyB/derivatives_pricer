@@ -16,4 +16,11 @@ add_executable(derivatives_pricer src/bindings/bind.cpp
         src/engine/products/eu_call.cpp
         src/engine/products/eu_call.h
         src/engine/products/eu_put.cpp
-        src/engine/products/eu_put.h)
+        src/engine/products/eu_put.h
+        src/engine/products/cfd.cpp
+        src/engine/products/cfd.h
+        src/engine/products/Derivative.cpp
+        src/engine/products/Derivative.h
+        src/engine/methods/PricingMethod.cpp
+        src/engine/methods/PricingMethod.h
+        src/engine/utils/utils.h)
