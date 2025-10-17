@@ -6,13 +6,14 @@
 
 
 double EUCall::payoff(double S1) {
-    return std::max(S1 - strike, 0.);
+    return std::max(S1 - strike, 0.) * position;
 }
 
 double EUCall::price(double vol, double riskfree_rate, PricingMethod method) {
     double res = -1;
     switch (method) {
         case MTE_CARLO:
+            // TODO
             break;
         case BLACK_SCHOLES: {
             double r = riskfree_rate;
@@ -30,6 +31,7 @@ double EUCall::price(double vol, double riskfree_rate, PricingMethod method) {
         }
             break;
         case BINOMIAL:
+            // TODO
             break;
     }
     return(res);
