@@ -1,7 +1,10 @@
 #include <iostream>
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 #include "engine/models/BlackScholes.h"
+#include "engine/models/MonteCarlo.h"
+
 #include "engine/products/cfd.h"
 #include "engine/products/Derivative.h"
 #include "engine/products/eu_call.h"
@@ -30,11 +33,12 @@ class PyModel : public Model {
 public:
     using Model::Model; // inherit constructors
 
-    std::vector<double> simulatePaths() override {
+    std::vector<double> simulatePaths(double S0, double param1, double param2) override {
         PYBIND11_OVERRIDE_PURE(
             std::vector<double>, // As before, return type
             Model, // Parent class
-            simulatePaths // Name of function in C++
+            simulatePaths, // Name of function in C++
+            S0, param1, param2 // args
         );
     }
 
@@ -104,4 +108,11 @@ PYBIND11_MODULE(derivatives_pricer, m) {
             .def(py::init<int>(), py::arg("steps"))
             .def("simulatePaths", &BlackScholes::simulatePaths)
             .def("priceEUCall", &BlackScholes::priceEUCall);
+
+
+    py::class_<MonteCarlo, Model>(m, "MonteCarlo")
+            .def(py::init<int, int, int>(), py::arg("steps") = DEFAULT_NB_STEPS, py::arg("simulations"), py::arg("seed") = DEFAULT_SEED)
+            .def(py::init<int, int>(), py::arg("steps"), py::arg("simulations"))
+            .def("simulatePaths", &MonteCarlo::simulatePaths)
+            .def("priceEUCall", &MonteCarlo::priceEUCall);
 }

@@ -1,7 +1,7 @@
 #include "BlackScholes.h"
 
-std::vector<double> BlackScholes::simulatePaths() {
-    return {.0};
+std::vector<double> BlackScholes::simulatePaths(double S0, double param1, double param2) {
+    return {NAN};
 }
 
 double BlackScholes::priceEUCall(double S0, double K, double T, double r, double sigma) {

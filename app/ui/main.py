@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 #import derivatives_pricer as dp
-from derivatives_pricer import EUCall, EUPut, CFD, PricingMethod, Strangle, Straddle
+from derivatives_pricer import EUCall, EUPut, CFD, PricingMethod, Strangle, Straddle, MonteCarlo, BlackScholes
 
 
 print('Hello world')
@@ -69,8 +69,15 @@ plt.plot(ST_vals, y2)
 plt.show() 
 """
 
+"""
 c = CFD(100, 1, 2, "BTCUSDT")
 ST_vals = np.array([i for i in range(300)])
 y1 = np.array([c.payoff(ST) for ST in ST_vals])
 plt.plot(ST_vals, y1)
 plt.show()
+"""
+
+#m = MonteCarlo(10, 30)
+#print(m.simulatePaths())
+
+print(MonteCarlo(10, 20).simulatePaths(100, 30, 30))
