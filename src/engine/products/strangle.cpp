@@ -27,5 +27,5 @@ double Strangle::price(double vol, double riskfree_rate, PricingMethod method) {
             // TODO
             break;
     }
-    return res;
+    return position * res;
 }
