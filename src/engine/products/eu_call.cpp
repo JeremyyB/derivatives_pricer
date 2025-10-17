@@ -3,6 +3,8 @@
 #include <algorithm>
 
 #include "engine/methods/PricingMethod.h"
+#include "engine/models/BlackScholes.h"
+#include "engine/models/Model.h"
 
 
 double EUCall::payoff(double S1) {
@@ -16,18 +18,8 @@ double EUCall::price(double vol, double riskfree_rate, PricingMethod method) {
             // TODO
             break;
         case BLACK_SCHOLES: {
-            double r = riskfree_rate;
-            double sigma = vol;
-            double T = timeToMaturity;
-            double K = strike;
-
-            double d1 = (std::log(S0 / K) + (r + sigma * sigma / 2) * T) / (sigma * std::sqrt(T));
-            double d2 = d1 - sigma * std::sqrt(T);
-
-            double N_d1 = 0.5 * (1 + std::erf(d1 / std::sqrt(2)));
-            double N_d2 = 0.5 * (1 + std::erf(d2 / std::sqrt(2)));
-
-            res = S0 * N_d1 - K * std::exp(-r * T) * N_d2;
+            BlackScholes model = BlackScholes(-1, -1);
+            res = model.priceEUCall(S0, strike, timeToMaturity, riskfree_rate, vol);
         }
             break;
         case BINOMIAL:

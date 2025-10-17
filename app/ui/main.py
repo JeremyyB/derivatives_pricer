@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 #import derivatives_pricer as dp
-from derivatives_pricer import EUCall, EUPut, PricingMethod
+from derivatives_pricer import EUCall, EUPut, CFD, PricingMethod, Strangle
 
 
 print('Hello world')
@@ -26,9 +26,23 @@ plt.plot(vol, y)
 plt.show()
 """
 
+"""
 b = EUCall(100, 150, 1, 1, "SP500")
 r_list = np.array([(i+1)/10 for i in range(40)])
 y = np.array([b.price(0.5, r, PricingMethod.BLACK_SCHOLES) for r in r_list])
 plt.plot(r_list, y)
 plt.show()
+"""
 
+
+"""
+c = CFD(100, 150, 1, -4, "BTCUSDT")
+print(c.payoff(200))
+"""
+
+# d = EUCall(100, 150, 1, 3, "SP500")
+d = Strangle(100, 1, 3, "SP500", 90, 110)
+ST_vals = np.array([i for i in range(200)])
+y = np.array([d.payoff(ST) for ST in ST_vals])
+plt.plot(ST_vals, y)
+plt.show()

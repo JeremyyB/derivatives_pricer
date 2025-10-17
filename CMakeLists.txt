@@ -21,6 +21,13 @@ add_executable(derivatives_pricer src/bindings/bind.cpp
         src/engine/products/cfd.h
         src/engine/products/Derivative.cpp
         src/engine/products/Derivative.h
-        src/engine/methods/PricingMethod.cpp
         src/engine/methods/PricingMethod.h
-        src/engine/utils/utils.h)
+        src/engine/products/strangle.cpp
+        src/engine/products/strangle.h
+        src/engine/models/Model.cpp
+        src/engine/models/Model.h
+        src/engine/models/MonteCarlo.cpp
+        src/engine/models/MonteCarlo.h
+        src/engine/models/BlackScholes.cpp
+        src/engine/models/BlackScholes.h
+)
