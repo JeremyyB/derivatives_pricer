@@ -2,6 +2,10 @@
 
 #include <algorithm>
 
-double put_payoff(double S, double K) {
-    return std::max(K - S, 0.);
+double EUPut::payoff(double S1) {
+    return std::max(strike - S1, 0.) * position;
+}
+
+double EUPut::price(double vol, double riskfree_rate, PricingMethod method) {
+    return -1; // TODO
 }

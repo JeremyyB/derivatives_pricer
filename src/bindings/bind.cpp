@@ -23,9 +23,6 @@ public:
 };
 
 PYBIND11_MODULE(derivatives_pricer, m) {
-    m.def("cfd_payoff", &cfd_payoff, "CFD payoff");
-    m.def("put_payoff", &put_payoff, "Put payoff");
-
     py::class_<Derivative, PyDerivative /* trampoline */>(m, "Derivative")
             .def(py::init<double, double, double, double, const std::string &>())
             .def_readwrite("S0", &Derivative::S0)
@@ -40,6 +37,16 @@ PYBIND11_MODULE(derivatives_pricer, m) {
             .def(py::init<double, double, double, double, const std::string &>())
             .def("payoff", &EUCall::payoff)
             .def("price", &EUCall::price);
+
+    py::class_<EUPut, Derivative>(m, "EUPut")
+            .def(py::init<double, double, double, double, const std::string &>())
+            .def("payoff", &EUPut::payoff)
+            .def("price", &EUPut::price);
+
+    py::class_<CFD, Derivative>(m, "CFD")
+            .def(py::init<double, double, double, double, const std::string &>())
+            .def("payoff", &CFD::payoff)
+            .def("price", &CFD::price);
 
     py::enum_<PricingMethod>(m, "PricingMethod")
             .value("MTE_CARLO", MTE_CARLO)
