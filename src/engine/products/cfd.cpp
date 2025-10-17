@@ -5,5 +5,5 @@ double CFD::payoff(double S1) {
 }
 
 double CFD::price(double vol, double riskfree_rate, PricingMethod method) {
-    return -1 ; // TODO
+    return -1; // TODO
 }

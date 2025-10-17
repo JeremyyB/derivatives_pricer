@@ -7,7 +7,7 @@
 #include "engine/models/BlackScholes.h"
 
 double Strangle::payoff(double S1) {
-    return (std::max(Kput - S1, 0.) + std::max( S1 - Kcall, 0.)) * position;
+    return (std::max(Kput - S1, 0.) + std::max(S1 - Kcall, 0.)) * position;
 }
 
 double Strangle::price(double vol, double riskfree_rate, PricingMethod method) {
@@ -22,7 +22,7 @@ double Strangle::price(double vol, double riskfree_rate, PricingMethod method) {
             double put_price = model.priceEUPut(S0, Kput, timeToMaturity, riskfree_rate, vol);
             res = call_price + put_price;
         }
-            break;
+        break;
         case BINOMIAL:
             // TODO
             break;

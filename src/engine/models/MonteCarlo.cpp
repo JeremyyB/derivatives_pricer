@@ -22,7 +22,6 @@ std::vector<double> MonteCarlo::simulatePaths(double S0, double r, double sigma)
     }
 
     return path;
-
 }
 
 double MonteCarlo::priceEUCall(double S0, double K, double T, double r, double sigma) {
