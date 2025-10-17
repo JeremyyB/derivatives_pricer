@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 #import derivatives_pricer as dp
-from derivatives_pricer import EUCall, EUPut, CFD, PricingMethod, Strangle
+from derivatives_pricer import EUCall, EUPut, CFD, PricingMethod, Strangle, Straddle
 
 
 print('Hello world')
@@ -40,9 +40,37 @@ c = CFD(100, 150, 1, -4, "BTCUSDT")
 print(c.payoff(200))
 """
 
+"""
 # d = EUCall(100, 150, 1, 3, "SP500")
 d = Strangle(100, 1, 3, "SP500", 90, 110)
 ST_vals = np.array([i for i in range(200)])
-y = np.array([d.payoff(ST) for ST in ST_vals])
-plt.plot(ST_vals, y)
+y1 = np.array([d.payoff(ST) for ST in ST_vals])
+y2 = np.array([Strangle(ST, 1, 3, "SP500", 90, 110).price(0.5, 0.05, PricingMethod.BLACK_SCHOLES) for ST in ST_vals])
+plt.plot(ST_vals, y1)
+
+"double price(double vol, double riskfree_rate, PricingMethod method) override;"
+
+
+plt.plot(ST_vals, y2)
+"""
+
+
+"""
+d = Straddle(100, 110, 1, 3, "SP500")
+ST_vals = np.array([i for i in range(200)])
+y1 = np.array([d.payoff(ST) for ST in ST_vals])
+y2 = np.array([Straddle(ST, 110, 1, 3, "SP500").price(0.5, 0.05, PricingMethod.BLACK_SCHOLES) for ST in ST_vals])
+plt.plot(ST_vals, y1)
+
+"double price(double vol, double riskfree_rate, PricingMethod method) override;"
+
+
+plt.plot(ST_vals, y2)
+plt.show() 
+"""
+
+c = CFD(100, 1, 2, "BTCUSDT")
+ST_vals = np.array([i for i in range(300)])
+y1 = np.array([c.payoff(ST) for ST in ST_vals])
+plt.plot(ST_vals, y1)
 plt.show()

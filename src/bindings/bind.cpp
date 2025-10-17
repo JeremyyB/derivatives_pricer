@@ -70,7 +70,7 @@ PYBIND11_MODULE(derivatives_pricer, m) {
             .def("price", &EUPut::price);
 
     py::class_<CFD, Derivative>(m, "CFD")
-            .def(py::init<double, double, double, double, const std::string &>())
+            .def(py::init<double, double, double, const std::string &>())
             .def("payoff", &CFD::payoff)
             .def("price", &CFD::price);
 
