@@ -6,6 +6,7 @@
 #include "engine/products/Derivative.h"
 #include "engine/products/eu_call.h"
 #include "engine/products/eu_put.h"
+#include "engine/products/straddle.h"
 #include "engine/products/strangle.h"
 
 namespace py = pybind11;
@@ -77,6 +78,11 @@ PYBIND11_MODULE(derivatives_pricer, m) {
             .def(py::init<double, double, double, const std::string &, double, double>())
             .def("payoff", &Strangle::payoff)
             .def("price", &Strangle::price);
+
+    py::class_<Straddle, Strangle>(m, "Straddle")
+            .def(py::init<double, double, double, double, const std::string &>())
+            .def("payoff", &Straddle::payoff)
+            .def("price", &Straddle::price);
 
     py::enum_<PricingMethod>(m, "PricingMethod")
             .value("MTE_CARLO", MTE_CARLO)

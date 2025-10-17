@@ -30,4 +30,6 @@ add_executable(derivatives_pricer src/bindings/bind.cpp
         src/engine/models/MonteCarlo.h
         src/engine/models/BlackScholes.cpp
         src/engine/models/BlackScholes.h
+        src/engine/products/straddle.cpp
+        src/engine/products/straddle.h
 )
