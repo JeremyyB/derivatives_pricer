@@ -1,8 +1,11 @@
 #ifndef MODEL_H
 #define MODEL_H
 #include <vector>
-
+#include <pybind11/pybind11.h>
+#include <pybind11/numpy.h>
 #include "engine/products/Derivative.h"
+
+namespace py = pybind11;
 
 inline int DEFAULT_NB_STEPS = 100; // TODO : Convert me into an enum
 inline int DEFAULT_SEED = 123456789; // TODO : Convert me into an enum
@@ -26,7 +29,7 @@ public:
     virtual ~Model() = default;
 
     // TODO : Make it returns a numpy array instead for performance boost
-    virtual std::vector<double> simulatePaths(double S0, double param1, double param2) = 0;
+    virtual py::array_t<double> simulatePaths(double S0, double param1, double param2) = 0;
 
     virtual double priceEUCall(double S0, double K, double T, double r, double sigma) = 0;
 

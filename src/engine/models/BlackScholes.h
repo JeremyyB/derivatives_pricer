@@ -7,7 +7,7 @@ class BlackScholes : public Model {
 public:
     BlackScholes() = default;
 
-    std::vector<double> simulatePaths(double S0, double param1, double param2) override;
+    py::array_t<double> simulatePaths(double S0, double param1, double param2) override;
 
     double priceEUCall(double S0, double K, double T, double r, double sigma) override;
 };

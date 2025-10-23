@@ -33,9 +33,9 @@ class PyModel : public Model {
 public:
     using Model::Model; // inherit constructors
 
-    std::vector<double> simulatePaths(double S0, double param1, double param2) override {
+    py::array_t<double> simulatePaths(double S0, double param1, double param2) override {
         PYBIND11_OVERRIDE_PURE(
-            std::vector<double>, // As before, return type
+            py::array_t<double>, // As before, return type
             Model, // Parent class
             simulatePaths, // Name of function in C++
             S0, param1, param2 // args

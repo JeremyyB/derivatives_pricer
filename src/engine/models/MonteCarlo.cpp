@@ -1,10 +1,12 @@
 #include "MonteCarlo.h"
-
+#include <pybind11/pybind11.h>
+#include <pybind11/numpy.h>
 #include <random>
 
+namespace py = pybind11;
 
-std::vector<double> MonteCarlo::simulatePaths(double S0, double r, double sigma) {
-    // TODO : One has to verify that (why we use r & not mu / risk neutral v.s. observed)
+
+py::array_t<double> MonteCarlo::simulatePaths(double S0, double r, double sigma) {
     // TODO : Simulate multiple paths
     std::mt19937 generator(this->seed);
     std::normal_distribution<double> normal(0.0, 1.0);
@@ -21,7 +23,9 @@ std::vector<double> MonteCarlo::simulatePaths(double S0, double r, double sigma)
         path[i] = path[i - 1] * std::exp((r - 0.5 * sigma * sigma) * dt + sigma * dB);
     }
 
-    return path;
+    auto result = pybind11::array_t<double>(this->steps);
+    std::memcpy(result.mutable_data(), path.data(), path.size() * sizeof(double));
+    return result;
 }
 
 double MonteCarlo::priceEUCall(double S0, double K, double T, double r, double sigma) {
