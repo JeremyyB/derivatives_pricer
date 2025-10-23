@@ -15,7 +15,9 @@ ext_modules = [
 
             "src/engine/models/Model.cpp",
             "src/engine/models/BlackScholes.cpp",
-            "src/engine/models/MonteCarlo.cpp"
+            "src/engine/models/MonteCarlo.cpp",
+
+            "src/engine/utils/Params.cpp",
         ],
         # All C++ source files
         include_dirs=[
@@ -24,6 +26,7 @@ ext_modules = [
             "src/engine",
             "src/engine/products",
             "src/engine/methods",
+            "src/engine/utils",
         ],
         # Header include path
         cxx_std=17,  # (Compile with C++17 support)
@@ -32,7 +35,7 @@ ext_modules = [
 
 setup(
     name="derivatives_pricer",
-    version="0.1.0",
+    version="0.1.1",
     author="Jeremy B.",
     description="Derivatives pricer with C++ efficiency",
     ext_modules=ext_modules,
