@@ -97,6 +97,7 @@ PYBIND11_MODULE(derivatives_pricer, m) {
     py::class_<Model, PyModel /* Trampoline */>(m, "Model")
             .def(py::init<int, int>(), py::arg("steps") = DEFAULT_NB_STEPS, py::arg("seed") = DEFAULT_SEED)
             .def(py::init<int>(), py::arg("steps"))
+            .def(py::init<>())
             .def_readwrite("steps", &Model::steps)
             .def_readwrite("seed", &Model::seed)
             .def("simulatePaths", &Model::simulatePaths)
@@ -104,14 +105,14 @@ PYBIND11_MODULE(derivatives_pricer, m) {
             .def("priceEUPut", &Model::priceEUPut);
 
     py::class_<BlackScholes, Model>(m, "BlackScholes")
-            .def(py::init<int, int>(), py::arg("steps") = DEFAULT_NB_STEPS, py::arg("seed") = DEFAULT_SEED)
-            .def(py::init<int>(), py::arg("steps"))
+            .def(py::init<>())
             .def("simulatePaths", &BlackScholes::simulatePaths)
             .def("priceEUCall", &BlackScholes::priceEUCall);
 
 
     py::class_<MonteCarlo, Model>(m, "MonteCarlo")
-            .def(py::init<int, int, int>(), py::arg("steps") = DEFAULT_NB_STEPS, py::arg("simulations"), py::arg("seed") = DEFAULT_SEED)
+            .def(py::init<int, int, int>(), py::arg("steps") = DEFAULT_NB_STEPS, py::arg("simulations"),
+                 py::arg("seed") = DEFAULT_SEED)
             .def(py::init<int, int>(), py::arg("steps"), py::arg("simulations"))
             .def("simulatePaths", &MonteCarlo::simulatePaths)
             .def("priceEUCall", &MonteCarlo::priceEUCall);

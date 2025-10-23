@@ -15,7 +15,7 @@ double EUPut::price(double vol, double riskfree_rate, PricingMethod method) {
             // TODO
             break;
         case BLACK_SCHOLES: {
-            BlackScholes model = BlackScholes(-1, -1);
+            BlackScholes model = BlackScholes();
             res = model.priceEUPut(S0, strike, timeToMaturity, riskfree_rate, vol);
         }
             break;

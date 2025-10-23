@@ -17,7 +17,7 @@ double Strangle::price(double vol, double riskfree_rate, PricingMethod method) {
             // TODO
             break;
         case BLACK_SCHOLES: {
-            BlackScholes model = BlackScholes(-1, -1);
+            BlackScholes model = BlackScholes();
             double call_price = model.priceEUCall(S0, Kcall, timeToMaturity, riskfree_rate, vol);
             double put_price = model.priceEUPut(S0, Kput, timeToMaturity, riskfree_rate, vol);
             res = call_price + put_price;

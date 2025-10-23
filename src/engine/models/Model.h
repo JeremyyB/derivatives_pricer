@@ -21,6 +21,8 @@ public:
         : steps(steps) {
     }
 
+    Model() = default;
+
     virtual ~Model() = default;
 
     // TODO : Make it returns a numpy array instead for performance boost

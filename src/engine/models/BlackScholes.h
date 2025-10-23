@@ -5,14 +5,7 @@
 
 class BlackScholes : public Model {
 public:
-    BlackScholes(int steps, int seed)
-    // TODO : Remove these constructor, BS needs none of those two parameters, set them to NaN
-        : Model(steps, seed) {
-    }
-
-    explicit BlackScholes(int steps)
-        : Model(steps) {
-    }
+    BlackScholes() = default;
 
     std::vector<double> simulatePaths(double S0, double param1, double param2) override;
 
