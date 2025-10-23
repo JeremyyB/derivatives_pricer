@@ -10,7 +10,7 @@ public:
 
     double payoff(double S1) override;
 
-    double price(double vol, double riskfree_rate, PricingMethod method) override;
+    double price(double vol, double riskfree_rate, const std::shared_ptr<PricingParams> &methodsParams) override;
 };
 
 

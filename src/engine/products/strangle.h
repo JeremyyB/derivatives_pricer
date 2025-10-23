@@ -1,7 +1,3 @@
-//
-// Created by JSB on 17/10/2025.
-//
-
 #ifndef STRANGLE_H
 #define STRANGLE_H
 #include "Derivative.h"
@@ -21,7 +17,7 @@ public:
 
     double payoff(double S1) override;
 
-    double price(double vol, double riskfree_rate, PricingMethod method) override;
+    double price(double vol, double riskfree_rate, const std::shared_ptr<PricingParams> &methodsParams) override;
 };
 
 

@@ -28,7 +28,6 @@ public:
 
     virtual ~Model() = default;
 
-    // TODO : Make it returns a numpy array instead for performance boost
     virtual py::array_t<double> simulatePaths(double S0, double param1, double param2) = 0;
 
     virtual double priceEUCall(double S0, double K, double T, double r, double sigma) = 0;

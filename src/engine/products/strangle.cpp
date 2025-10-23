@@ -1,7 +1,3 @@
-//
-// Created by JSB on 17/10/2025.
-//
-
 #include "strangle.h"
 
 #include "engine/models/BlackScholes.h"
@@ -10,9 +6,9 @@ double Strangle::payoff(double S1) {
     return (std::max(Kput - S1, 0.) + std::max(S1 - Kcall, 0.)) * position;
 }
 
-double Strangle::price(double vol, double riskfree_rate, PricingMethod method) {
+double Strangle::price(double vol, double riskfree_rate, const std::shared_ptr<PricingParams> &methodsParams) {
     double res = -1;
-    switch (method) {
+    switch (methodsParams->getMethodType()) {
         case MTE_CARLO:
             // TODO
             break;

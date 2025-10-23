@@ -23,8 +23,8 @@ public:
         PYBIND11_OVERRIDE_PURE(double, Derivative, payoff, S1);
     }
 
-    double price(double vol, double riskfree_rate, PricingMethod method) override {
-        PYBIND11_OVERRIDE_PURE(double, Derivative, price, vol, riskfree_rate, method);
+    double price(double vol, double riskfree_rate, const std::shared_ptr<PricingParams> &methodsParam) override {
+        PYBIND11_OVERRIDE_PURE(double, Derivative, price, vol, riskfree_rate, methodsParam);
     }
 };
 
@@ -116,4 +116,21 @@ PYBIND11_MODULE(derivatives_pricer, m) {
             .def(py::init<int, int>(), py::arg("steps"), py::arg("simulations"))
             .def("simulatePaths", &MonteCarlo::simulatePaths)
             .def("priceEUCall", &MonteCarlo::priceEUCall);
+
+
+    py::class_<PricingParams, std::shared_ptr<PricingParams>>(m, "PricingParams");
+
+    py::class_<MonteCarloParams, PricingParams, std::shared_ptr<MonteCarloParams>>(m, "MonteCarloParams")
+            .def(py::init<int, int, int>(), py::arg("simulations"), py::arg("seed") = DEFAULT_SEED, py::arg("steps") = DEFAULT_NB_STEPS)
+            .def_readwrite("simulations", &MonteCarloParams::simulations)
+            .def_readwrite("seed", &MonteCarloParams::seed)
+            .def_readwrite("steps", &MonteCarloParams::steps);
+
+    py::class_<BinomialParams, PricingParams, std::shared_ptr<BinomialParams>>(m, "BinomialParams")
+            .def(py::init<int, int>(), py::arg("simulations"), py::arg("steps") = DEFAULT_NB_STEPS)
+            .def_readwrite("simulations", &BinomialParams::simulations)
+            .def_readwrite("steps", &BinomialParams::steps);
+
+    py::class_<BlackScholesParams, PricingParams, std::shared_ptr<BlackScholesParams>>(m, "BlackScholesParams")
+            .def(py::init<>());
 }

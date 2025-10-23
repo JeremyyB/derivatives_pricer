@@ -1,6 +1,7 @@
 #include <pybind11/pybind11.h>
 
 #include "engine/methods/PricingMethod.h"
+#include "engine/utils/Params.h"
 
 #ifndef DERIVATIVE_H
 #define DERIVATIVE_H
@@ -17,8 +18,7 @@ public:
     double position; // 1 for long, -1 for short
     std::string underlyingId;
 
-    Derivative(double s0, double strike, double time_to_maturity, double position,
-               const std::string &underlying_id)
+    Derivative(double s0, double strike, double time_to_maturity, double position, const std::string &underlying_id)
         : S0(s0),
           strike(strike),
           timeToMaturity(time_to_maturity),
@@ -28,7 +28,7 @@ public:
 
     virtual double payoff(double S1) = 0;
 
-    virtual double price(double vol, double riskfree_rate, PricingMethod method) = 0;
+    virtual double price(double vol, double riskfree_rate, const std::shared_ptr<PricingParams> &methodsParams) = 0;
 };
 
 

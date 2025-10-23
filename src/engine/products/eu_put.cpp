@@ -8,9 +8,9 @@ double EUPut::payoff(double S1) {
     return std::max(strike - S1, 0.) * position;
 }
 
-double EUPut::price(double vol, double riskfree_rate, PricingMethod method) {
+double EUPut::price(double vol, double riskfree_rate, const std::shared_ptr<PricingParams> &methodsParams) {
     double res = -1;
-    switch (method) {
+    switch (methodsParams->getMethodType()) {
         case MTE_CARLO:
             // TODO
             break;
