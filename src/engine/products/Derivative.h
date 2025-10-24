@@ -1,3 +1,4 @@
+#include <pybind11/numpy.h>
 #include <pybind11/pybind11.h>
 
 #include "engine/methods/PricingMethod.h"
@@ -29,6 +30,16 @@ public:
     virtual double payoff(double S1) = 0;
 
     virtual double price(double vol, double riskfree_rate, const std::shared_ptr<PricingParams> &methodsParams) = 0;
+
+    /**
+     * Greeks' model computation
+     * @param vol
+     * @param riskfree_rate
+     * @param methodsParams
+     * @return a 5x1 shape [∆, Gamma, Vega, Theta, Rho]
+     */
+    virtual py::array_t<double> greeks(double vol, double riskfree_rate, const std::shared_ptr<PricingParams> &methodsParams) = 0;
+
 };
 
 

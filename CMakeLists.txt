@@ -36,4 +36,5 @@ add_executable(derivatives_pricer src/bindings/bind.cpp
         src/engine/utils/Params.h
         src/engine/models/Binomial.cpp
         src/engine/models/Binomial.h
+        src/engine/utils/Greeks.h
 )

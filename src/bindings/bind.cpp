@@ -12,6 +12,7 @@
 #include "engine/products/eu_put.h"
 #include "engine/products/straddle.h"
 #include "engine/products/strangle.h"
+#include "engine/utils/Greeks.h"
 
 namespace py = pybind11;
 
@@ -26,6 +27,11 @@ public:
 
     double price(double vol, double riskfree_rate, const std::shared_ptr<PricingParams> &methodsParam) override {
         PYBIND11_OVERRIDE_PURE(double, Derivative, price, vol, riskfree_rate, methodsParam);
+    }
+
+    py::array_t<double> greeks(double vol, double riskfree_rate,
+                               const std::shared_ptr<PricingParams> &methodsParam) override {
+        PYBIND11_OVERRIDE_PURE(py::array_t<double>, Derivative, greeks, vol, riskfree_rate, methodsParam);
     }
 };
 
@@ -73,6 +79,8 @@ PYBIND11_MODULE(derivatives_pricer, m) {
             .def_readwrite("underlyingId", &Derivative::underlyingId, "Underlying asset identifier")
             .def("payoff", &Derivative::payoff, "Calculate payoff", py::arg("S1"))
             .def("price", &Derivative::price, "Price the derivative",
+                 py::arg("vol"), py::arg("riskfree_rate"), py::arg("methodsParam"))
+            .def("greeks", &Derivative::greeks, "Greeks' model computation",
                  py::arg("vol"), py::arg("riskfree_rate"), py::arg("methodsParam"));
 
     py::class_<EUCall, Derivative>(m, "EUCall", "European Call Option")
@@ -81,7 +89,9 @@ PYBIND11_MODULE(derivatives_pricer, m) {
                  py::arg("S0"), py::arg("strike"), py::arg("timeToMaturity"),
                  py::arg("position"), py::arg("underlyingId"))
             .def("payoff", &EUCall::payoff, "Calculate payoff")
-            .def("price", &EUCall::price, "Price the option");
+            .def("price", &EUCall::price, "Price the option")
+            .def("greeks", &Derivative::greeks, "Greeks' model computation",
+                 py::arg("vol"), py::arg("riskfree_rate"), py::arg("methodsParam"));;
 
     py::class_<EUPut, Derivative>(m, "EUPut", "European Put Option")
             .def(py::init<double, double, double, double, const std::string &>(),
@@ -89,7 +99,9 @@ PYBIND11_MODULE(derivatives_pricer, m) {
                  py::arg("S0"), py::arg("strike"), py::arg("timeToMaturity"),
                  py::arg("position"), py::arg("underlyingId"))
             .def("payoff", &EUPut::payoff, "Calculate payoff")
-            .def("price", &EUPut::price, "Price the option");
+            .def("price", &EUPut::price, "Price the option")
+            .def("greeks", &Derivative::greeks, "Greeks' model computation",
+                 py::arg("vol"), py::arg("riskfree_rate"), py::arg("methodsParam"));;
 
     py::class_<CFD, Derivative>(m, "CFD", "Contract For Difference")
             .def(py::init<double, double, double, const std::string &>(),
@@ -97,7 +109,9 @@ PYBIND11_MODULE(derivatives_pricer, m) {
                  py::arg("S0"), py::arg("timeToMaturity"),
                  py::arg("position"), py::arg("underlyingId"))
             .def("payoff", &CFD::payoff, "Calculate payoff")
-            .def("price", &CFD::price, "Price the CFD");
+            .def("price", &CFD::price, "Price the CFD")
+            .def("greeks", &Derivative::greeks, "Greeks' model computation",
+                 py::arg("vol"), py::arg("riskfree_rate"), py::arg("methodsParam"));;
 
     py::class_<Strangle, Derivative>(m, "Strangle", "Strangle Option Strategy")
             .def(py::init<double, double, double, const std::string &, double, double>(),
@@ -105,7 +119,9 @@ PYBIND11_MODULE(derivatives_pricer, m) {
                  py::arg("S0"), py::arg("timeToMaturity"), py::arg("position"),
                  py::arg("underlyingId"), py::arg("kput"), py::arg("kcall"))
             .def("payoff", &Strangle::payoff, "Calculate payoff")
-            .def("price", &Strangle::price, "Price the strategy");
+            .def("price", &Strangle::price, "Price the strategy")
+            .def("greeks", &Derivative::greeks, "Greeks' model computation",
+                 py::arg("vol"), py::arg("riskfree_rate"), py::arg("methodsParam"));;
 
     py::class_<Straddle, Strangle>(m, "Straddle", "Straddle Option Strategy")
             .def(py::init<double, double, double, double, const std::string &>(),
@@ -113,7 +129,9 @@ PYBIND11_MODULE(derivatives_pricer, m) {
                  py::arg("S0"), py::arg("strike"), py::arg("timeToMaturity"),
                  py::arg("position"), py::arg("underlyingId"))
             .def("payoff", &Straddle::payoff, "Calculate payoff")
-            .def("price", &Straddle::price, "Price the strategy");
+            .def("price", &Straddle::price, "Price the strategy")
+            .def("greeks", &Derivative::greeks, "Greeks' model computation",
+                 py::arg("vol"), py::arg("riskfree_rate"), py::arg("methodsParam"));;
 
     /**
      *  Models
@@ -151,6 +169,18 @@ PYBIND11_MODULE(derivatives_pricer, m) {
                  py::arg("d"))
             .def("simulatePaths", &Binomial::simulatePaths, "Simulate price paths")
             .def("priceEUCall", &Binomial::priceEUCall, "Price European Call option");
+
+    /**
+     * Greeks
+     */
+
+    py::enum_<Greeks>(m, "Greeks", "Available greeks")
+            .value("DELTA", DELTA, "Price derivative")
+            .value("GAMMA", GAMMA, "Price second derivative")
+            .value("VEGA", VEGA, "Vol derivative")
+            .value("THETA", THETA, "Time derivative")
+            .value("RHO", RHO, "Risk-free rate derivative")
+            .export_values();
 
     /**
     *  Pricing Params, Pricing Methods

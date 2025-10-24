@@ -36,6 +36,13 @@ double EUCall::price(double vol, double riskfree_rate, const std::shared_ptr<Pri
     }
     return position * res;
 }
+
+py::array_t<double> EUCall::greeks(double vol, double riskfree_rate,
+    const std::shared_ptr<PricingParams> &methodsParams) {
+    py::array_t<double> result({5, 1});
+    return result;
+}
+
 /*
 double greeks(double S0, double K, GreekType greek, Struct parameterOfPricing) {
 

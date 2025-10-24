@@ -12,6 +12,8 @@ public:
     double payoff(double S1) override;
 
     double price(double vol, double riskfree_rate, const std::shared_ptr<PricingParams> &methodsParams) override;
+
+    py::array_t<double> greeks(double vol, double riskfree_rate, const std::shared_ptr<PricingParams> &methodsParams) override;
 };
 
 #endif //EU_CALL_H

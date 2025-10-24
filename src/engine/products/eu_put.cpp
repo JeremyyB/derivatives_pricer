@@ -32,4 +32,10 @@ double EUPut::price(double vol, double riskfree_rate, const std::shared_ptr<Pric
             break;
     }
     return position * res;
+}
+
+py::array_t<double> EUPut::greeks(double vol, double riskfree_rate,
+    const std::shared_ptr<PricingParams> &methodsParams) {
+    py::array_t<double> result({5, 1});
+    return result; // TODO
 };
