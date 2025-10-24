@@ -32,6 +32,10 @@ Of course, we recommend you to be in a virtual env. :
 2. Update the module with pip
 3. Use it in Python (`app`)
 
-# Comments
+## Run the GUI app
+
+`streamlit run ./derivatives_pricer/app/ui/app.py`
+
+## Comments
 
 The idea is to price every derivative I have met from now.
