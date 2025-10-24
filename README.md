@@ -34,7 +34,7 @@ Of course, we recommend you to be in a virtual env. :
 
 ## Run the GUI app
 
-`streamlit run ./derivatives_pricer/app/ui/app.py`
+`streamlit run ./derivatives_pricer/gui.py`
 
 ## Comments
 
