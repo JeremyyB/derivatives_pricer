@@ -3,6 +3,7 @@
 #include <algorithm>
 
 #include "engine/methods/PricingMethod.h"
+#include "engine/models/Binomial.h"
 #include "engine/models/BlackScholes.h"
 #include "engine/models/Model.h"
 #include "engine/models/MonteCarlo.h"
@@ -16,7 +17,7 @@ double EUCall::price(double vol, double riskfree_rate, const std::shared_ptr<Pri
     double res = -1;
     switch (methodsParams->getMethodType()) {
         case MTE_CARLO: {
-            std::shared_ptr<MonteCarloParams> pricing_params = std::dynamic_pointer_cast<MonteCarloParams>(methodsParams); // TODO : Check if casting is mandatory
+            std::shared_ptr<MonteCarloParams> pricing_params = std::dynamic_pointer_cast<MonteCarloParams>(methodsParams);
             MonteCarlo model = MonteCarlo(pricing_params->steps, pricing_params->simulations, pricing_params->seed);
             res = model.priceEUCall(S0, strike, timeToMaturity, riskfree_rate, vol);
         }
@@ -26,8 +27,10 @@ double EUCall::price(double vol, double riskfree_rate, const std::shared_ptr<Pri
             res = model.priceEUCall(S0, strike, timeToMaturity, riskfree_rate, vol);
         }
             break;
-        case BINOMIAL:
-            // TODO
+        case BINOMIAL: {
+            std::shared_ptr<BinomialParams> pricing_params = std::dynamic_pointer_cast<BinomialParams>(methodsParams);
+            Binomial model = Binomial(pricing_params->steps, pricing_params->u, pricing_params->d);
+        }
             break;
     }
     return position * res;

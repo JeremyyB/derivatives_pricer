@@ -7,16 +7,27 @@ ext_modules = [
         [
             "src/bindings/bind.cpp",
 
+            #
+            #   Products
+            #
             "src/engine/products/eu_call.cpp",
             "src/engine/products/eu_put.cpp",
             "src/engine/products/cfd.cpp",
             "src/engine/products/Derivative.cpp",
             "src/engine/products/strangle.cpp",
+            "src/engine/products/straddle.cpp",
 
+            #
+            #   Models
+            #
             "src/engine/models/Model.cpp",
             "src/engine/models/BlackScholes.cpp",
             "src/engine/models/MonteCarlo.cpp",
+            "src/engine/models/Binomial.cpp",
 
+            #
+            #   Pricing Params
+            #
             "src/engine/utils/Params.cpp",
         ],
         # All C++ source files
@@ -27,8 +38,11 @@ ext_modules = [
             "src/engine/products",
             "src/engine/methods",
             "src/engine/utils",
+            "src/engine/models",
         ],
-        # Header include path
+        extra_compile_args=['-std=c++17', '-frtti', '-fPIC', '-fvisibility=default'],
+        extra_link_args=['-undefined', 'dynamic_lookup'],
+    # Header include path
         cxx_std=17,  # (Compile with C++17 support)
     ),
 ]

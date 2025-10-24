@@ -5,6 +5,7 @@
 
 struct PricingParams {
     virtual ~PricingParams() = default;
+
     virtual PricingMethod getMethodType() const = 0;
 };
 
@@ -13,8 +14,9 @@ struct MonteCarloParams : public PricingParams {
     int seed;
     int steps;
 
-    MonteCarloParams(int simulations = 1000, int seed = 42, int steps = 100)
-        : simulations(simulations), seed(seed), steps(steps) {}
+    MonteCarloParams(int simulations, int seed, int steps)
+        : simulations(simulations), seed(seed), steps(steps) {
+    }
 
     PricingMethod getMethodType() const override {
         return MTE_CARLO;
@@ -22,11 +24,17 @@ struct MonteCarloParams : public PricingParams {
 };
 
 struct BinomialParams : public PricingParams {
-    int simulations;
     int steps;
 
-    BinomialParams(int simulations = 1000, int steps = 100)
-        : simulations(simulations), steps(steps) {}
+    double u;
+    double d;
+
+    // TODO : Enum default parameters DEFAULT_UP
+    BinomialParams(int steps, double u, double d)
+        : steps(steps),
+          u(u),
+          d(d) {
+    }
 
     PricingMethod getMethodType() const override {
         return BINOMIAL;
@@ -40,7 +48,6 @@ struct BlackScholesParams : public PricingParams {
         return BLACK_SCHOLES;
     }
 };
-
 
 
 #endif //PARAMS_H

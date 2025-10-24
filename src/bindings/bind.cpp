@@ -4,6 +4,7 @@
 
 #include "engine/models/BlackScholes.h"
 #include "engine/models/MonteCarlo.h"
+#include "engine/models/Binomial.h"
 
 #include "engine/products/cfd.h"
 #include "engine/products/Derivative.h"
@@ -53,6 +54,9 @@ public:
 };
 
 PYBIND11_MODULE(derivatives_pricer, m) {
+    /**
+     *  Products
+     */
     py::class_<Derivative, PyDerivative /* trampoline */>(m, "Derivative")
             .def(py::init<double, double, double, double, const std::string &>())
             .def_readwrite("S0", &Derivative::S0)
@@ -88,11 +92,10 @@ PYBIND11_MODULE(derivatives_pricer, m) {
             .def("payoff", &Straddle::payoff)
             .def("price", &Straddle::price);
 
-    py::enum_<PricingMethod>(m, "PricingMethod")
-            .value("MTE_CARLO", MTE_CARLO)
-            .value("BLACK_SCHOLES", BLACK_SCHOLES)
-            .value("BINOMIAL", BINOMIAL)
-            .export_values();
+
+    /**
+     *  Models
+     */
 
     py::class_<Model, PyModel /* Trampoline */>(m, "Model")
             .def(py::init<int, int>(), py::arg("steps") = DEFAULT_NB_STEPS, py::arg("seed") = DEFAULT_SEED)
@@ -109,7 +112,6 @@ PYBIND11_MODULE(derivatives_pricer, m) {
             .def("simulatePaths", &BlackScholes::simulatePaths)
             .def("priceEUCall", &BlackScholes::priceEUCall);
 
-
     py::class_<MonteCarlo, Model>(m, "MonteCarlo")
             .def(py::init<int, int, int>(), py::arg("steps") = DEFAULT_NB_STEPS, py::arg("simulations"),
                  py::arg("seed") = DEFAULT_SEED)
@@ -117,20 +119,39 @@ PYBIND11_MODULE(derivatives_pricer, m) {
             .def("simulatePaths", &MonteCarlo::simulatePaths)
             .def("priceEUCall", &MonteCarlo::priceEUCall);
 
+    py::class_<Binomial, Model>(m, "Binomial")
+            .def(py::init<int, double, double>(), py::arg("steps") = DEFAULT_NB_STEPS, py::arg("u"),
+                 py::arg("d"))
+            .def("simulatePaths", &Binomial::simulatePaths)
+            .def("priceEUCall", &Binomial::priceEUCall);
 
-    py::class_<PricingParams, std::shared_ptr<PricingParams>>(m, "PricingParams");
 
-    py::class_<MonteCarloParams, PricingParams, std::shared_ptr<MonteCarloParams>>(m, "MonteCarloParams")
-            .def(py::init<int, int, int>(), py::arg("simulations"), py::arg("seed") = DEFAULT_SEED, py::arg("steps") = DEFAULT_NB_STEPS)
+    /**
+    *  Pricing Params, Pricing Methods
+    */
+
+    py::enum_<PricingMethod>(m, "PricingMethod")
+        .value("MTE_CARLO", MTE_CARLO)
+        .value("BLACK_SCHOLES", BLACK_SCHOLES)
+        .value("BINOMIAL", BINOMIAL)
+        .export_values();
+
+    py::class_<PricingParams, std::shared_ptr<PricingParams> >(m, "PricingParams");
+
+    py::class_<MonteCarloParams, PricingParams, std::shared_ptr<MonteCarloParams> >(m, "MonteCarloParams")
+            .def(py::init<int, int, int>(), py::arg("simulations"), py::arg("seed") = DEFAULT_SEED,
+                 py::arg("steps") = DEFAULT_NB_STEPS)
             .def_readwrite("simulations", &MonteCarloParams::simulations)
             .def_readwrite("seed", &MonteCarloParams::seed)
             .def_readwrite("steps", &MonteCarloParams::steps);
 
-    py::class_<BinomialParams, PricingParams, std::shared_ptr<BinomialParams>>(m, "BinomialParams")
-            .def(py::init<int, int>(), py::arg("simulations"), py::arg("steps") = DEFAULT_NB_STEPS)
-            .def_readwrite("simulations", &BinomialParams::simulations)
-            .def_readwrite("steps", &BinomialParams::steps);
+    py::class_<BinomialParams, PricingParams, std::shared_ptr<BinomialParams> >(m, "BinomialParams")
+            .def(py::init<int, double, double>(), py::arg("steps") = DEFAULT_NB_STEPS,
+                 py::arg("u") = 1.5, py::arg("d") = .5)
+            .def_readwrite("steps", &BinomialParams::steps)
+            .def_readwrite("u", &BinomialParams::u)
+            .def_readwrite("d", &BinomialParams::d);
 
-    py::class_<BlackScholesParams, PricingParams, std::shared_ptr<BlackScholesParams>>(m, "BlackScholesParams")
+    py::class_<BlackScholesParams, PricingParams, std::shared_ptr<BlackScholesParams> >(m, "BlackScholesParams")
             .def(py::init<>());
 }
