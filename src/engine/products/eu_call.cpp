@@ -30,6 +30,7 @@ double EUCall::price(double vol, double riskfree_rate, const std::shared_ptr<Pri
         case BINOMIAL: {
             std::shared_ptr<BinomialParams> pricing_params = std::dynamic_pointer_cast<BinomialParams>(methodsParams);
             Binomial model = Binomial(pricing_params->steps, pricing_params->u, pricing_params->d);
+            res = model.priceEUCall(S0, strike, timeToMaturity, riskfree_rate, vol);
         }
             break;
     }

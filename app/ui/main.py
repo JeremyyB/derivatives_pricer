@@ -3,8 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # import derivatives_pricer as dp
-from derivatives_pricer import EUCall, EUPut, CFD, PricingMethod, Strangle, Straddle, MonteCarlo, BlackScholes, \
-    MonteCarloParams, BlackScholesParams
+# from derivatives_pricer import EUCall, EUPut, CFD, PricingMethod, Strangle, Straddle, MonteCarlo, BlackScholes, \
+#    MonteCarloParams, BlackScholesParams
 
 print('Hello world')
 # print(dp.cfd_payoff(4., -2., 3.))
@@ -99,7 +99,7 @@ print(bs.priceEUCall(100, 150, 1, 0.5, 0.05))
 print(bs.simulatePaths(100, .05, .5) )
 """
 
-
+"""
 b = EUCall(100, 150, 1, 1, "SP500")
 # ST_vals = np.array([i for i in range(200)])
 # y1 = np.array([b.payoff(ST) for ST in ST_vals])
@@ -109,7 +109,7 @@ print("*" * 50)
 print(b.price(0.5, 0.05, MonteCarloParams(2000, 93283, 500)))
 #b = EUCall(100, 150, 1, 1, "SP500", BlackScholesParams())
 print(b.price(0.5, 0.05, BlackScholesParams()))
-
+"""
 
 
 """
@@ -126,3 +126,38 @@ plt.plot(ST_vals, y1)
 plt.plot(ST_vals, y2)
 plt.show()
 """
+
+"""
+m = MonteCarlo(200, 1000)
+paths = m.simulatePaths(100, .05, .5)
+print(paths.shape)
+print(paths)
+for i in range(np.minimum(paths.shape[0],25)):
+    plt.plot(paths[i])
+plt.show()
+"""
+
+"""
+b = EUCall(100, 150, 1, 1, "SP500")
+r_list = np.array([(i+1)/10 for i in range(40)])
+y = np.array([b.price(0.5, r, BlackScholesParams()) for r in r_list])
+plt.plot(r_list, y)
+y = np.array([b.price(0.5, r, MonteCarloParams(5000, 93283, 500)) for r in r_list])
+plt.plot(r_list, y)
+plt.title("MteCa & BS diff")
+plt.show()
+#print(b.price(0.5, 0.05, MonteCarloParams(2000, 93283, 500)))
+"""
+
+from derivatives_pricer import Binomial, BinomialParams, EUCall
+
+"EUCall(double s0, double strike, double time_to_maturity, double position, const std::string &underlying_id)"
+b = EUCall(100, 150, 1, 1, "DAX")
+print(b.price(1.2, 0.05, BinomialParams(100, 1.5, 0.5)))
+
+b = Binomial(10, 1.5, 0.5).simulatePaths(100, np.nan, np.nan)
+# print(b.astype(int))
+
+"double Binomial::priceEUCall(double S0, double K, double T, double r, double sigma) {"
+b = Binomial(100, 1.5, 0.5).priceEUCall(100, 150, 1., 0.05, 1.2);
+print(b)
