@@ -13,3 +13,27 @@ double BlackScholes::priceEUCall(double S0, double K, double T, double r, double
 
     return S0 * N_d1 - K * std::exp(-r * T) * N_d2;
 }
+
+py::array_t<double> BlackScholes::computeGreek(Greeks greek, double S0, double K, double T, double r, double sigma) {
+    return py::array_t<double>({0, 0}); // TODO
+}
+
+py::array_t<double> BlackScholes::delta(double S0, double K, double T, double r, double sigma) {
+    return py::array_t<double>({0, 0}); // TODO
+}
+
+py::array_t<double> BlackScholes::gamma(double S0, double K, double T, double r, double sigma) {
+    return py::array_t<double>({0, 0}); // TODO
+}
+
+py::array_t<double> BlackScholes::theta(double S0, double K, double T, double r, double sigma) {
+    return py::array_t<double>({0, 0}); // TODO
+}
+
+py::array_t<double> BlackScholes::vega(double S0, double K, double T, double r, double sigma) {
+    return py::array_t<double>({0, 0}); // TODO
+}
+
+py::array_t<double> BlackScholes::rho(double S0, double K, double T, double r, double sigma) {
+    return py::array_t<double>({0, 0}); // TODO
+}

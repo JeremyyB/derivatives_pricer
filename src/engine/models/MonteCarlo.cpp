@@ -48,3 +48,27 @@ double MonteCarlo::priceEUCall(double S0, double K, double T, double r, double s
     double mean_payoff = sum_payoffs / this->simulations;
     return mean_payoff * std::exp(-r * T);
 }
+
+py::array_t<double> MonteCarlo::computeGreek(Greeks greek, double S0, double K, double T, double r, double sigma) {
+    return py::array_t<double>({0, 0}); // TODO
+}
+
+py::array_t<double> MonteCarlo::delta(double S0, double K, double T, double r, double sigma) {
+    return py::array_t<double>({0, 0}); // TODO
+}
+
+py::array_t<double> MonteCarlo::gamma(double S0, double K, double T, double r, double sigma) {
+    return py::array_t<double>({0, 0}); // TODO
+}
+
+py::array_t<double> MonteCarlo::theta(double S0, double K, double T, double r, double sigma) {
+    return py::array_t<double>({0, 0}); // TODO
+}
+
+py::array_t<double> MonteCarlo::vega(double S0, double K, double T, double r, double sigma) {
+    return py::array_t<double>({0, 0}); // TODO
+}
+
+py::array_t<double> MonteCarlo::rho(double S0, double K, double T, double r, double sigma) {
+    return py::array_t<double>({0, 0}); // TODO
+}

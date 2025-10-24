@@ -38,3 +38,27 @@ double Binomial::priceEUCall(double S0, double K, double T, double r, double sig
     }
     return opt(0, 0);
 }
+
+py::array_t<double> Binomial::computeGreek(Greeks greek, double S0, double K, double T, double r, double sigma) {
+    return py::array_t<double>({0, 0}); // TODO
+}
+
+py::array_t<double> Binomial::delta(double S0, double K, double T, double r, double sigma) {
+    return py::array_t<double>({0, 0}); // TODO
+}
+
+py::array_t<double> Binomial::gamma(double S0, double K, double T, double r, double sigma) {
+    return py::array_t<double>({0, 0}); // TODO
+}
+
+py::array_t<double> Binomial::theta(double S0, double K, double T, double r, double sigma) {
+    return py::array_t<double>({0, 0}); // TODO
+}
+
+py::array_t<double> Binomial::vega(double S0, double K, double T, double r, double sigma) {
+    return py::array_t<double>({0, 0}); // TODO
+}
+
+py::array_t<double> Binomial::rho(double S0, double K, double T, double r, double sigma) {
+    return py::array_t<double>({0, 0}); // TODO
+}

@@ -57,6 +57,61 @@ public:
             S0, K, T, r, sigma
         );
     }
+
+    py::array_t<double> computeGreek(Greeks greek, double S0, double K, double T, double r, double sigma) override {
+        PYBIND11_OVERRIDE_PURE(
+            py::array_t<double>,
+            Model,
+            computeGreek,
+            greek, S0, K, T, r, sigma
+        );
+    }
+
+protected:
+    py::array_t<double> delta(double S0, double K, double T, double r, double sigma) override {
+        PYBIND11_OVERRIDE_PURE(
+            py::array_t<double>,
+            Model,
+            delta,
+            S0, K, T, r, sigma
+        );
+    }
+
+    py::array_t<double> gamma(double S0, double K, double T, double r, double sigma) override {
+        PYBIND11_OVERRIDE_PURE(
+            py::array_t<double>,
+            Model,
+            gamma,
+            S0, K, T, r, sigma
+        );
+    }
+
+    py::array_t<double> theta(double S0, double K, double T, double r, double sigma) override {
+        PYBIND11_OVERRIDE_PURE(
+            py::array_t<double>,
+            Model,
+            theta,
+            S0, K, T, r, sigma
+        );
+    }
+
+    py::array_t<double> rho(double S0, double K, double T, double r, double sigma) override {
+        PYBIND11_OVERRIDE_PURE(
+            py::array_t<double>,
+            Model,
+            rho,
+            S0, K, T, r, sigma
+        );
+    }
+
+    py::array_t<double> vega(double S0, double K, double T, double r, double sigma) override {
+        PYBIND11_OVERRIDE_PURE(
+            py::array_t<double>,
+            Model,
+            vega,
+            S0, K, T, r, sigma
+        );
+    }
 };
 
 PYBIND11_MODULE(derivatives_pricer, m) {
@@ -146,12 +201,14 @@ PYBIND11_MODULE(derivatives_pricer, m) {
             .def_readwrite("seed", &Model::seed, "Random seed")
             .def("simulatePaths", &Model::simulatePaths, "Simulate price paths")
             .def("priceEUCall", &Model::priceEUCall, "Price European Call option")
-            .def("priceEUPut", &Model::priceEUPut, "Price European Put option");
+            .def("priceEUPut", &Model::priceEUPut, "Price European Put option")
+            .def("computeGreek", &Model::computeGreek, "Compute a Greek");
 
     py::class_<BlackScholes, Model>(m, "BlackScholes", "Black-Scholes Model")
             .def(py::init<>(), "Constructor")
             .def("simulatePaths", &BlackScholes::simulatePaths, "Simulate price paths")
-            .def("priceEUCall", &BlackScholes::priceEUCall, "Price European Call option");
+            .def("priceEUCall", &BlackScholes::priceEUCall, "Price European Call option")
+            .def("computeGreek", &BlackScholes::computeGreek, "Compute a Greek");
 
     py::class_<MonteCarlo, Model>(m, "MonteCarlo", "Monte Carlo Simulation Model")
             .def(py::init<int, int, int>(),
@@ -160,7 +217,8 @@ PYBIND11_MODULE(derivatives_pricer, m) {
                  py::arg("seed") = DEFAULT_SEED)
             .def(py::init<int, int>(), py::arg("steps"), py::arg("simulations"))
             .def("simulatePaths", &MonteCarlo::simulatePaths, "Simulate price paths")
-            .def("priceEUCall", &MonteCarlo::priceEUCall, "Price European Call option");
+            .def("priceEUCall", &MonteCarlo::priceEUCall, "Price European Call option")
+            .def("computeGreek", &MonteCarlo::computeGreek, "Compute a Greek");
 
     py::class_<Binomial, Model>(m, "Binomial", "Binomial Tree Model")
             .def(py::init<int, double, double>(),
@@ -168,7 +226,8 @@ PYBIND11_MODULE(derivatives_pricer, m) {
                  py::arg("steps") = DEFAULT_NB_STEPS, py::arg("u"),
                  py::arg("d"))
             .def("simulatePaths", &Binomial::simulatePaths, "Simulate price paths")
-            .def("priceEUCall", &Binomial::priceEUCall, "Price European Call option");
+            .def("priceEUCall", &Binomial::priceEUCall, "Price European Call option")
+            .def("computeGreek", &Binomial::computeGreek, "Compute a Greek");
 
     /**
      * Greeks
