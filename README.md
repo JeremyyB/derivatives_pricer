@@ -1,5 +1,7 @@
 # Derivatives Pricer
 
+![](misc/sc.png)
+
 This project is **not** a simple prototype notebook.
 
 This project aims to build a production-grade derivatives pricer.
