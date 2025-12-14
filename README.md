@@ -8,16 +8,6 @@ We price using C++ (as it is done in the industry) for execution speed,
 and we then use Python to endow the pricer with a graphical user interface, an API and a database storage (to boost
 efficiency).
 
-
-Future tasks :
-- [ ] Logger in C++
-- [ ] Logger in Python
-- [ ] Return directly the vanilla priceS as a couple = less computation
-- [ ] GUI
-- [ ] DB storages
-- [ ] API exchanges
-- [ ] yfinance data download to price get historical, implied-vol of a Ticker
-
 ## Install :
 
 ```zsh
