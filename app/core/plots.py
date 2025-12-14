@@ -1,10 +1,10 @@
 from matplotlib import pyplot as plt
 
-from app.core.curves import payoffCurve, priceCurve
+from app.core.curves import payoff_curve, price_curve
 
 
-def plotDifferentMaturitiesPricePayoff(product, vol, r, pricingParams):
-    x, y = payoffCurve(product)
+def plot_diff_maturities_price_payoff(product, vol, r, pricingParams):
+    x, y = payoff_curve(product)
 
     fig = plt.figure(figsize=(8, 8))
 
@@ -13,7 +13,7 @@ def plotDifferentMaturitiesPricePayoff(product, vol, r, pricingParams):
     T0 = product.timeToMaturity
     for T in [1.0, 0.5, 0.1]:
         product.timeToMaturity = T
-        x, y = priceCurve(product, pricingParams, vol, r)
+        x, y = price_curve(product, pricingParams, vol, r)
         plt.plot(x, y, label=f"Price $(T={T})$")
 
     product.timeToMaturity = T0
