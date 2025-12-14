@@ -20,17 +20,23 @@ Future tasks :
 
 ## Install :
 
-Of course, we recommend you to be in a virtual env. :
-
-`pip install pybind11`
-
-`pip install ./derivatives_pricer`
+```zsh
+pip install pybind11 # Installing it with conda is better way to build the C++ engine 
+pip install ./derivatives_pricer
+```
 
 ## Update work flow
 
-1. Build in C++, (`src`)
-2. Update the module with pip
-3. Use it in Python (`app`)
+1. Build in C++, (`src`) : 
+```zsh
+cd ./derivatives_pricer
+mkdir build
+cd build
+cmake ..
+make .. -I .venv/.Python # Or any path directing to your Python installation
+```
+2. Update the module with pip, as in the first install
+3. Use it in Python (`app`), for now :
 
 ## Run the GUI app
 
